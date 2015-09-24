@@ -10,6 +10,7 @@ import ar.edu.unpa.programacionjava.daos.MateriaDAO;
 import ar.edu.unpa.programacionjava.database.ConnectionManager;
 import ar.edu.unpa.programacionjava.entities.Carrera;
 import ar.edu.unpa.programacionjava.entities.Materia;
+import ar.edu.unpa.programacionjava.servlets.util.Util;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
@@ -47,13 +48,17 @@ public class MateriaServlet extends HttpServlet {
             response.sendRedirect("index.jsp");
         } else {
             if (accion.equals("nuevo")) {
-                listarCarreras(request, response);
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/nueva-materia.jsp");
-                dispatcher.forward(request,response);
+                forwardNuevaMateria(request, response);
             }
             
         }
        
+    }
+
+    private void forwardNuevaMateria(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        listarCarreras(request, response);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/nueva-materia.jsp");
+        dispatcher.forward(request,response);
     }
 
     /**
@@ -99,6 +104,8 @@ public class MateriaServlet extends HttpServlet {
             materia.setNombreProfesor(request.getParameter("profesor"));
             materia.setIdCarrera(Integer.valueOf(request.getParameter("carrera")));
             resultado = MateriaDAO.registrarMateria(conn, materia);
+            Util.agregarMensajes(request, "Se registró la materia con éxito");
+            forwardNuevaMateria(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

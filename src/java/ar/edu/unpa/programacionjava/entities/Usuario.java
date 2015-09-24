@@ -10,6 +10,9 @@ package ar.edu.unpa.programacionjava.entities;
  * @author
  */
 public class Usuario {
+    
+    public final static Integer ESTUDIANTE =1;
+    public final static Integer ADMINISTRADOR = 2;
 
     private Integer id;
     private String username;
@@ -19,6 +22,7 @@ public class Usuario {
     private String dni;
     private Integer tipoUsuario;
     private Integer idCarrera;
+    private String nombreCarrera;
 
    
     public String getUsername() {
@@ -92,6 +96,14 @@ public class Usuario {
 
     public void setIdCarrera(Integer idCarrera) {
         this.idCarrera = idCarrera;
+    }
+
+    public String getNombreCarrera() {
+        return nombreCarrera;
+    }
+
+    public void setNombreCarrera(String nombreCarrera) {
+        this.nombreCarrera = nombreCarrera;
     }
 
    

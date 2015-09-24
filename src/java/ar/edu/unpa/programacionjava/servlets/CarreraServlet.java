@@ -101,8 +101,10 @@ public class CarreraServlet extends HttpServlet {
             Connection conn = ConnectionManager.getConnection();
             Carrera carrera= new Carrera();
             carrera.setNombre(request.getParameter("carrera"));
-            carrera.setId(Integer.valueOf(request.getParameter("id")));
             CarreraDAO.registrarNuevo(conn, carrera);
+            Util.agregarMensajes(request, "Se registró la carrera con éxito");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/nueva-carrera.jsp");
+            dispatcher.forward(request,response);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -138,7 +140,9 @@ public class CarreraServlet extends HttpServlet {
             carrera.setNombre(request.getParameter("carrera"));
             carrera.setId(Integer.valueOf(request.getParameter("id")));
             CarreraDAO.actualizar(conn, carrera);
-            Util.agregarMensajes(request, "Se Actualizó la carrera con éxito");
+            Util.agregarMensajes(request, "Se actualizó la carrera con éxito");
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/nueva-carrera.jsp");
+            dispatcher.forward(request,response);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

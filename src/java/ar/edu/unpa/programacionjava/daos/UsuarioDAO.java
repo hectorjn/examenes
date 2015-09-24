@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -62,6 +64,46 @@ public class UsuarioDAO {
 
         }
         return true;
+    }
+
+    public static List<Usuario> buscarEstudiantes(Connection conn, Usuario usuario) throws SQLException  {
+        List<Usuario> estudiantes = new ArrayList<Usuario>();
+        // Arma la consulta y la ejecuta
+        String laConsulta = "SELECT U.*, C.NOMBRE AS NOMBRE_C FROM USUARIO U \n" +
+                            "INNER JOIN CARRERA C ON C.CARRERA_ID = U.CARRERA_ID\n" +
+                            "WHERE U.TIPO = "+ Usuario.ESTUDIANTE;
+        if(!usuario.getNombre().isEmpty()){
+            laConsulta += " AND U.NOMBRE LIKE '%"+usuario.getNombre()+"%'";
+        }
+        if(!usuario.getApellido().isEmpty()){
+            laConsulta += " AND U.APELLIDO LIKE '%"+usuario.getApellido()+"%'";
+        }
+        if(!usuario.getDni().isEmpty()){
+            laConsulta += " AND U.DNI LIKE '%"+usuario.getDni()+"%'";
+        }
+        if(usuario.getIdCarrera() > 0){
+            laConsulta += " AND U.CARRERA_ID = "+usuario.getIdCarrera();
+        }
+        laConsulta += " ORDER BY U.NOMBRE DESC , NOMBRE_C DESC ";
+        Statement stmtConsulta = conn.createStatement();
+        ResultSet rs = stmtConsulta.executeQuery(laConsulta);
+        System.out.println(laConsulta);
+        // Obtiene los datos
+        while (rs.next()) {
+            Usuario estudiante = new Usuario();
+            estudiante.setId(rs.getInt("user_id"));
+            estudiante.setNombre(rs.getString("nombre"));
+            estudiante.setApellido(rs.getString("apellido"));
+            estudiante.setTipoUsuario(rs.getInt("tipo"));
+            estudiante.setDni(rs.getString("dni"));
+            estudiante.setIdCarrera(rs.getInt("carrera_id"));
+            estudiante.setNombreCarrera(rs.getString("nombre_c"));
+            estudiantes.add(estudiante);
+        }
+        // Cierra el Statement y la Connection
+        stmtConsulta.close();
+        conn.close();
+        return estudiantes;
     }
     
 

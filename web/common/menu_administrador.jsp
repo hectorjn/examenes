@@ -18,7 +18,7 @@
                     <li><a href="#">Usuarios</a>
                         <ul>
                             <li><a href="./usuario?accion=nuevo">Nuevo</a><li>
-                            <li><a href="#home">Buscar</a><li>    
+                            <li><a href="./usuario?accion=buscar">Buscar Estudiantes</a><li>    
                         </ul>
                     </li>
                     <li><a href="#">Carrera</a>

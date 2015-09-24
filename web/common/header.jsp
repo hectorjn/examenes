@@ -67,7 +67,7 @@
             </c:otherwise>
             
         </c:choose>
-        <c:if test="${requestScope.mensajes}">
+        <c:if test="${not empty requestScope.mensajes}">
             <div id="lightbox"> </div>
             <div class="dialog">
                 <div class="ui-dialog-titlebar">
@@ -75,11 +75,12 @@
                 </div>
                 <div class="ui-dialog-content">
                     <c:forEach items="${requestScope.mensajes}" var="mensaje" >
-                        <span>${mensaje}</span><br>  
+                        <label>${mensaje}</label>  
                     </c:forEach>
+
                 </div>
                 <div class="ui-dialog-buttons">
-                    <input class="submit" type="button" value="Aceptar" onclick="hideAlert()"></input>
+                    <input type="button" value="Aceptar" onclick="hideAlert()"></input>
                 </div>
             </div>
         </c:if>

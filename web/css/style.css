@@ -26,7 +26,7 @@ h2 span{
 	color:#ffa800;
 }
 .wrapper{
-	width:960px;
+	width:85%;
 	margin:4px auto;
 	min-height:550px;
 }
@@ -146,7 +146,8 @@ input[type="password"]:focus{
 	display:block;
 	margin:4px 30px;
 }
-input[type="submit"] {
+input[type="submit"],
+input[type="button"]{
 	background: #e3e3e3;
 	border: 1px solid #ccc;
 	color: #333;
@@ -167,7 +168,8 @@ input[type="submit"] {
 	-webkit-box-shadow: 0px 0px 2px #fff inset;
 	box-shadow: 0px 0px 2px #fff inset;
 }
-input[type="submit"]:hover {
+input[type="submit"]:hover ,
+input[type="button"]:hover{
 	background: #d9d9d9;
 	-moz-box-shadow: 0px 0px 2px #eaeaea inset;
 	-webkit-box-shadow: 0px 0px 2px #eaeaea inset;
@@ -201,7 +203,7 @@ input[type="submit"]:hover {
 }
 
 .data_container table{
-    min-width: 85%;
+    width: 100%;
     border: 1px solid #808080;
     border-collapse: collapse;
 }
@@ -216,18 +218,30 @@ input[type="submit"]:hover {
 }
 
 .data_container table tr:nth-child(odd){
-/*para los colores de las filas impares*/
-background-color: #ffffff;
+    /*para los colores de las filas impares*/
+    background-color: #ffffff;
 }
 
 .data_container table tr:nth-child(even){
-/*para los colores de las filas pares*/
-background:#EDEDED;
+    /*para los colores de las filas pares*/
+    background:#EDEDED;
 }
 
 .data_container table  td {
     border: 1px solid #808080;
+    padding: 5px;
 }
+
+.data_container td.acciones,
+.data_container th.acciones {
+    max-width: 50px;
+}
+
+.data_container table  a {
+    font-size: 13px;
+}
+
+
 .form_container label.error {
     margin-left: 10px;
     font-size: 12px;
@@ -265,7 +279,7 @@ background:#EDEDED;
 
 .dialog {
     display: block;
-    min-height: 350px;
+    min-height: 300px;
     left: 400px;
     position: absolute;
     top: 120px;
@@ -287,10 +301,16 @@ background:#EDEDED;
     font-size: 17px;
 }
 .dialog .ui-dialog-content{
-    min-height: 280px;
-    
+   min-height: 200px;
+   line-height: 200px;
 }
 .dialog .ui-dialog-buttons{
     text-align: center;
-    
+}
+
+.dialog .ui-dialog-content  > label{
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 25px;
+    font-size: 20px;
 }

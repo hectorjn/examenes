@@ -24,7 +24,7 @@ public class Util {
         for(String mess : mensaje){
             mensajes.add(mess);
         }
-        request.setAttribute("mensaje", mensajes);
+        request.setAttribute("mensajes", mensajes);
     
     }
     

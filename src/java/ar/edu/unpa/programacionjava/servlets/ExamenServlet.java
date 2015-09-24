@@ -10,6 +10,7 @@ import ar.edu.unpa.programacionjava.daos.MateriaDAO;
 import ar.edu.unpa.programacionjava.database.ConnectionManager;
 import ar.edu.unpa.programacionjava.entities.Examen;
 import ar.edu.unpa.programacionjava.entities.Materia;
+import ar.edu.unpa.programacionjava.servlets.util.Util;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
@@ -45,12 +46,16 @@ public class ExamenServlet extends HttpServlet {
             response.sendRedirect("index.jsp");
         } else {
             if (accion.equals("nuevo")) {
-                listarMateria(request, response);
-                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/nuevo-examen.jsp");
-                dispatcher.forward(request,response);
+                forwardNuevoExamen(request, response);
             }
 
         }
+    }
+
+    private void forwardNuevoExamen(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        listarMateria(request, response);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/nuevo-examen.jsp");
+        dispatcher.forward(request,response);
     }
 
     /**
@@ -108,6 +113,8 @@ public class ExamenServlet extends HttpServlet {
             examen.setFechaString(request.getParameter("fecha"));
             examen.setHora(request.getParameter("hora"));
             resultado = ExamenDAO.registrarNuevo(conn, examen);
+            Util.agregarMensajes(request, "Se registró el exámen con éxito");
+            forwardNuevoExamen(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
