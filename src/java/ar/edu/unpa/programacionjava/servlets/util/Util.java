@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ar.edu.unpa.programacionjava.servlets;
+package ar.edu.unpa.programacionjava.servlets.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  *
  */
-public class Mensajes {
+public class Util {
     
     public static void agregarMensajes(HttpServletRequest request, String ... mensaje ){
     

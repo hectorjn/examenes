@@ -5,6 +5,7 @@
  */
 package ar.edu.unpa.programacionjava.servlets;
 
+import ar.edu.unpa.programacionjava.servlets.util.Util;
 import ar.edu.unpa.programacionjava.daos.CarreraDAO;
 import ar.edu.unpa.programacionjava.database.ConnectionManager;
 import ar.edu.unpa.programacionjava.entities.Carrera;
@@ -137,7 +138,7 @@ public class CarreraServlet extends HttpServlet {
             carrera.setNombre(request.getParameter("carrera"));
             carrera.setId(Integer.valueOf(request.getParameter("id")));
             CarreraDAO.actualizar(conn, carrera);
-            Mensajes.agregarMensajes(request, "Se Actualizó la carrera con éxito");
+            Util.agregarMensajes(request, "Se Actualizó la carrera con éxito");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
