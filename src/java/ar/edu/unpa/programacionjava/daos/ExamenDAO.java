@@ -5,11 +5,17 @@
  */
 package ar.edu.unpa.programacionjava.daos;
 
+import ar.edu.unpa.programacionjava.entities.Carrera;
 import ar.edu.unpa.programacionjava.entities.Examen;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -36,6 +42,49 @@ public class ExamenDAO {
 
         }
         return true;
+    }
+
+    public static List<Examen> listarExamenes(Connection conn, Examen examen) throws SQLException {
+        String laConsulta = " SELECT E.EXAMEN_ID, E.MATERIA_ID,M.NOMBRE AS NOMBRE_M,E.FECHA_HORA, E.NOMBRE, COUNT(EX.ESTUDIANTE_ID) AS INSCRITOS \n" +
+                            " FROM EXAMEN E\n" +
+                            " INNER JOIN MATERIA M ON M.MATERIA_ID = E.MATERIA_ID \n"+
+                            " LEFT JOIN ESTUDIANTE_EXAMEN EX ON E.EXAMEN_ID = EX.EXAMEN_ID\n"+
+                            " WHERE E.MATERIA_ID IS NOT NULL \n" ;
+        if(examen.getMateriaId() != null && examen.getMateriaId() >0){
+            laConsulta += " AND  E.MATERIA_ID = " + examen.getMateriaId();
+        }
+        if(examen.getNombre()!=null && !examen.getNombre().isEmpty()){
+            laConsulta += " AND  E.NOMBRE LIKE '%" + examen.getNombre()+"%'";
+        }
+        laConsulta += "  GROUP BY E.EXAMEN_ID, E.MATERIA_ID,M.NOMBRE, E.FECHA_HORA, E.NOMBRE"
+                +" ORDER BY M.NOMBRE ASC , E.NOMBRE ASC";
+        System.out.println(laConsulta);
+        Statement stmtConsulta = conn.createStatement();
+        ResultSet rs = stmtConsulta.executeQuery(laConsulta);
+       
+        // Obtiene los datos
+        List<Examen> examenes = new ArrayList<Examen>();
+        Timestamp stamp;
+        while (rs.next()) {
+            Examen ex  = new Examen();
+            ex.setCantidadInscritos(rs.getInt("INSCRITOS"));
+            ex.setId(rs.getInt("EXAMEN_ID"));
+            ex.setMateriaId(rs.getInt("E.MATERIA_ID"));
+            ex.setNombreMateria(rs.getString("NOMBRE_M"));
+            ex.setNombre(rs.getString("NOMBRE"));
+            stamp = rs.getTimestamp("FECHA_HORA");
+            ex.setFecha(new Date(stamp.getTime()));
+            examenes.add(ex);
+        }
+        stmtConsulta.close();
+        conn.close();
+        
+       
+        return examenes;
+    }
+
+    public static List<Examen> buscarExamenesEstudiante(Connection conn, Integer id) {
+        return null;
     }
     
 }

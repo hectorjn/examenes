@@ -17,9 +17,12 @@ public class Examen {
 
     private Integer id;
     private Integer materiaId;
+    private Integer cantidadInscritos;
     private String nombre;
+    private String nombreMateria;
     private String fechaString;
     private String hora;
+    
 
     public Integer getId() {
         return id;
@@ -72,5 +75,29 @@ public class Examen {
         }
         return date;
     }
+    public void setFecha(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+        this.hora= formatter.format(date);
+        formatter = new SimpleDateFormat("dd/MM/yyyy");
+        this.fechaString = formatter.format(date);
+        
+    }
+
+    public Integer getCantidadInscritos() {
+        return cantidadInscritos;
+    }
+
+    public void setCantidadInscritos(Integer cantidadInscritos) {
+        this.cantidadInscritos = cantidadInscritos;
+    }
+
+    public String getNombreMateria() {
+        return nombreMateria;
+    }
+
+    public void setNombreMateria(String nombreMateria) {
+        this.nombreMateria = nombreMateria;
+    }
+    
 
 }

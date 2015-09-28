@@ -2,13 +2,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <head>
+        <META HTTP-EQUIV="Expires" CONTENT="no-cache">
+    </head>
     <body>
         <%@include file="common/header.jsp" %>
         <div class="wrapper">
             <div class="content" id="content">
                 <div id="form_container" class="form_container box">
 
-                    <form id="formulario" action="usuario" method="POST">
+                    <form id="formulario" action="usuario" method="POST" autocomplete="off">
                         <h2>Nuevo Usuario</h2>
                         <div>
                             <label>Nombre</label>

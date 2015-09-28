@@ -7,8 +7,10 @@ package ar.edu.unpa.programacionjava.servlets;
 
 import ar.edu.unpa.programacionjava.servlets.util.Util;
 import ar.edu.unpa.programacionjava.daos.CarreraDAO;
+import ar.edu.unpa.programacionjava.daos.MateriaDAO;
 import ar.edu.unpa.programacionjava.database.ConnectionManager;
 import ar.edu.unpa.programacionjava.entities.Carrera;
+import ar.edu.unpa.programacionjava.entities.Materia;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
@@ -54,7 +56,9 @@ public class CarreraServlet extends HttpServlet {
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/nueva-carrera.jsp");
                 dispatcher.forward(request,response);
             }
-
+            if (accion.equals("materias")) {
+                listarMaterias(request, response);
+            }
         }
        
     }
@@ -147,5 +151,29 @@ public class CarreraServlet extends HttpServlet {
             ex.printStackTrace();
         }
     }
+    
+       private void listarMaterias(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            HttpSession session = request.getSession();
+            session.setAttribute("materias", null);
+            session.setAttribute("materias", null);
+            Connection conn = ConnectionManager.getConnection();
+            Materia materia = new Materia();
+            materia.setIdCarrera(Integer.valueOf(request.getParameter("carrera")));
+            List<Materia> materias = MateriaDAO.buscarMaterias(conn, materia);
+            if (materias.size() > 0) {
+                session.setAttribute("materia", materia);
+                session.setAttribute("materias", materias);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listar-materias.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                Util.agregarMensajes(request, "No se encontraron registros");
+                listarCarreras(request, response);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
 }

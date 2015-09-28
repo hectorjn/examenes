@@ -14,7 +14,7 @@
             <h2>Demo by:<span>Alejandra Cabrera </span> </h2>
             <div class="content">
                 <div id="form_wrapper" class="form_wrapper">
-                    <form class="login active" action="login" method="POST">
+                    <form class="login active" action="login" method="POST" autocomplete="off">
                         <h3>Login</h3>
                         <div>
                             <label>Usuario:</label>

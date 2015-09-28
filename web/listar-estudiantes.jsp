@@ -26,8 +26,8 @@
                                         <td>${estudiante.apellido}</td>
                                         <td>${estudiante.nombreCarrera}</td>
                                         <td class="acciones">
-                                            <a href="./carrera?accion=editar&id=">Exámenes</a>  <br/>
-                                            <a href="./carrera?accion=editar&id=">Inscribir Materias</a>  
+                                            <a href="./examen?accion=listarPorEstudiante&estudiante=${estudiante.id}">Exámenes</a>  <br/>
+                                            <a href="./usuario?accion=inscribir&estudiante=${estudiante.id}">Inscribir Materias</a>  
                                         </td>
                                     </tr>
                                 </c:forEach>

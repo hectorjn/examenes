@@ -6,7 +6,7 @@
         <%@include file="common/header.jsp" %>
         <div class="wrapper">
             <div class="content" id="content">
-                <div id="form_container" class="form_container">
+                <div id="form_container" class="form_container" autocomplete="off">
 
                    <form id="formulario" action="usuario" method="POST">
                        <h2>Buscar Estudiante</h2>

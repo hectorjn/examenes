@@ -6,10 +6,10 @@
     
 }
 div#header-estudiante{
-  background: linear-gradient(top, #cc9900,#400000 );
-  background: -ms-linear-gradient(top,#cc9900,#400000 );
-  background: -webkit-gradient(linear, left top, left bottom, from(#cc9900), to(#400000));
-  background: -moz-linear-gradient(top,#cc9900,#400000 );
+  background: linear-gradient(top, #165e29, #101010 );
+  background: -ms-linear-gradient(top, #165e29, #101010 );
+  background: -webkit-gradient(linear, left top, left bottom, from(#165e29), to(#101010));
+  background: -moz-linear-gradient(top, #165e29, #101010 );
 }
 div#header-admin{
   background: linear-gradient(top, #7C1118,#400000 );
@@ -87,12 +87,12 @@ div#header-admin{
 }
 #menu-bar ul a:hover, a.logout  {
   background: #0399D4 !important;
-  background: linear-gradient(top,  #d8d02c,  #704a15) !important;
-  background: -ms-linear-gradient(top,  #d8d02c,  #704a15) !important;
-  background: -webkit-gradient(linear, left top, left bottom, from(#d8d02c), to(#704a15)) !important;
-  background: -moz-linear-gradient(top,  #d8d02c,  #704a15) !important;
+  background: linear-gradient(top,  #a0a0a0, #101010 ) !important;
+  background: -ms-linear-gradient(top,  #a0a0a0, #101010) !important;
+  background: -webkit-gradient(linear, left top, left bottom, from(#a0a0a0), to(#101010)) !important;
+  background: -moz-linear-gradient(top, #a0a0a0, #101010) !important;
   color: #FFFFFF !important;
-  border-radius: 0;
+  border-radius: 10px;
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
   text-shadow: 2px 2px 3px #FFFFFF;
@@ -104,10 +104,10 @@ div#header-admin{
 }
 #menu-bar ul {
   background: #DDDDDD;
-  background: linear-gradient(top,  #FFFFFF,  #cdbf47);
-  background: -ms-linear-gradient(top,  #FFFFFF,  #cdbf47);
-  background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#cdbf47));
-  background: -moz-linear-gradient(top,  #FFFFFF,  #cdbf47);
+  background: linear-gradient(top,  #A0A0A0, #585858);
+  background: -ms-linear-gradient(top,  #A0A0A0, #585858);
+  background: -webkit-gradient(linear, left top, left bottom, from(#A0A0A0), to(#585858));
+  background: -moz-linear-gradient(top,  #A0A0A0, #585858);
   display: none;
   margin: 0;
   padding: 0;
@@ -115,7 +115,7 @@ div#header-admin{
   position: absolute;
   top: 30px;
   left: 0;
-  border: solid 1px #B4B4B4;
+  border: solid 1px #A0A0A0;
   border-radius: 10px;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -130,7 +130,7 @@ div#header-admin{
 }
 #menu-bar ul a {
   padding:10px 0px 10px 15px;
-  color:#424242 !important;
+  color:#FFFFFF !important;
   font-size:12px;
   font-style:normal;
   font-family:arial;

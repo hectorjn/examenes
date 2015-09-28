@@ -8,7 +8,7 @@
             <div class="content" id="content">
                 <div id="form_container" class="form_container">
 
-                    <form id="formulario" action="carrera" method="POST">
+                    <form id="formulario" action="carrera" method="POST" autocomplete="off">
                         <h2>Nueva Carrera</h2>
                         <div>
                             <label>Nombre</label>

@@ -10,6 +10,7 @@ import ar.edu.unpa.programacionjava.daos.MateriaDAO;
 import ar.edu.unpa.programacionjava.database.ConnectionManager;
 import ar.edu.unpa.programacionjava.entities.Examen;
 import ar.edu.unpa.programacionjava.entities.Materia;
+import ar.edu.unpa.programacionjava.entities.Usuario;
 import ar.edu.unpa.programacionjava.servlets.util.Util;
 import java.io.IOException;
 import java.sql.Connection;
@@ -48,7 +49,13 @@ public class ExamenServlet extends HttpServlet {
             if (accion.equals("nuevo")) {
                 forwardNuevoExamen(request, response);
             }
-
+            if (accion.equals("buscar")) {
+                forwardBuscarExamen(request, response);
+            }
+            if (accion.equals("misExamenes")) {
+                forwardMisExamenes(request, response);
+            }
+            
         }
     }
 
@@ -78,6 +85,9 @@ public class ExamenServlet extends HttpServlet {
             if (accion.equals("nuevo")) {
                 registarNuevo(request, response);
             }
+            if (accion.equals("buscar")) {
+                buscarExamenes(request, response);
+            }
 
         }
     }
@@ -104,7 +114,7 @@ public class ExamenServlet extends HttpServlet {
     }
 
     private void registarNuevo(HttpServletRequest request, HttpServletResponse response) {
-          boolean resultado = false;
+        boolean resultado = false;
         try {
             Connection conn = ConnectionManager.getConnection();
             Examen examen = new Examen();
@@ -115,6 +125,55 @@ public class ExamenServlet extends HttpServlet {
             resultado = ExamenDAO.registrarNuevo(conn, examen);
             Util.agregarMensajes(request, "Se registró el exámen con éxito");
             forwardNuevoExamen(request, response);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void forwardBuscarExamen(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        listarMateria(request, response);
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/buscar-examen.jsp");
+        dispatcher.forward(request,response);
+    }
+
+    private void buscarExamenes(HttpServletRequest request, HttpServletResponse response) {
+       try {
+            HttpSession session = request.getSession();
+            Connection conn = ConnectionManager.getConnection();
+            Examen examen = new Examen();
+            examen.setMateriaId(Integer.parseInt(request.getParameter("materia")));
+            examen.setNombre(request.getParameter("nombre_examen"));
+            List<Examen> examenes = ExamenDAO.listarExamenes(conn, examen);
+            if(examenes.size()>0){
+                session.setAttribute("examen", examen);
+                session.setAttribute("examenes", examenes);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listar-examenes.jsp");
+                dispatcher.forward(request, response);
+            }else{
+                Util.agregarMensajes(request, "No se encontraron resultados");
+                forwardBuscarExamen(request, response);
+            }
+           
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void forwardMisExamenes(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            HttpSession session = request.getSession();
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            Connection conn = ConnectionManager.getConnection();
+            List<Examen> examenes = ExamenDAO.buscarExamenesEstudiante(conn, usuario.getId());
+            if (examenes.size() > 0) {
+                session.setAttribute("Examenes", examenes);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listar-examenes.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                Util.agregarMensajes(request, "No se encontraron registros");
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/welcome.jsp");
+                dispatcher.forward(request, response);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }

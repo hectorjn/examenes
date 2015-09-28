@@ -4,8 +4,11 @@
 <%@taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+
 <html>
-    <head>
+    <head
+        <META HTTP-EQUIV="Expires" CONTENT="no-cache">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <link rel="stylesheet" type="text/css" href="css/menu.css" />
         <link rel="stylesheet" href="css/jquery-ui.css"/>

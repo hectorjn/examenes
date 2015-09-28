@@ -6,12 +6,14 @@
 package ar.edu.unpa.programacionjava.daos;
 
 import ar.edu.unpa.programacionjava.entities.Usuario;
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -104,6 +106,29 @@ public class UsuarioDAO {
         stmtConsulta.close();
         conn.close();
         return estudiantes;
+    }
+
+    public static void borrarInscripciones(Connection conn, Integer idEstudiante) throws SQLException  {
+        String laConsulta = "DELETE FROM EXAMENES.ESTUDIANTE_MATERIA WHERE ESTUDIANTE_ID = ? ";
+        PreparedStatement stmtConsulta = null;
+        stmtConsulta = conn.prepareStatement(laConsulta);
+        stmtConsulta.setInt(1, idEstudiante);
+        System.out.println(laConsulta);
+        stmtConsulta.executeUpdate();
+        stmtConsulta.close();
+
+    }
+
+    public static void inscribir(Connection conn, Integer idEstudiante, String[] materiasId) throws SQLException  {
+        String materias = Arrays.toString(materiasId).replaceAll("\\[|\\]", "");
+        String laConsulta = "INSERT INTO ESTUDIANTE_MATERIA(ESTUDIANTE_ID,MATERIA_ID, APROBADO) " +
+                "SELECT ? , MATERIA_ID, FALSE FROM MATERIA WHERE MATERIA_ID IN("+materias+")";
+        PreparedStatement stmtConsulta = null;
+        stmtConsulta = conn.prepareStatement(laConsulta);
+        stmtConsulta.setInt(1, idEstudiante);
+        System.out.println(laConsulta);
+        stmtConsulta.executeUpdate();
+        stmtConsulta.close();
     }
     
 

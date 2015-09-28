@@ -25,7 +25,7 @@
                                         </td>
                                         <td class="acciones">
                                             <a href="./carrera?accion=editar&id=${carrera.id}">Editar</a>  
-                                             <a href="./carrera?accion=editar&id=${carrera.id}">Ver Exámenes</a>  
+                                             <a href="./carrera?accion=materias&carrera=${carrera.id}">Listar Materias</a>  
                                         </td>
                                     </tr>
                                 </c:forEach>

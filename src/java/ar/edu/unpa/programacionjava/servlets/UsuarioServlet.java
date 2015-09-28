@@ -6,12 +6,13 @@
 package ar.edu.unpa.programacionjava.servlets;
 
 import ar.edu.unpa.programacionjava.daos.CarreraDAO;
+import ar.edu.unpa.programacionjava.daos.MateriaDAO;
 import ar.edu.unpa.programacionjava.daos.UsuarioDAO;
 import ar.edu.unpa.programacionjava.database.ConnectionManager;
 import ar.edu.unpa.programacionjava.entities.Carrera;
+import ar.edu.unpa.programacionjava.entities.EstudianteMateria;
 import ar.edu.unpa.programacionjava.entities.Usuario;
 import ar.edu.unpa.programacionjava.servlets.util.Util;
-import com.mysql.jdbc.EscapeTokenizer;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
@@ -50,7 +51,9 @@ public class UsuarioServlet extends HttpServlet {
             }
             if (accion.equals("buscar")) {
                 forwardBuscar(request, response);
-            
+            }
+            if (accion.equals("inscribir")) {
+                buscarParaInscribir(request, response);
             }
             
         }
@@ -91,7 +94,10 @@ public class UsuarioServlet extends HttpServlet {
             if (accion.equals("buscar")) {
                 buscar(request, response);
             }
-
+            if (accion.equals("inscribir")) {
+                inscribir(request, response);
+            }
+           
         }
     }
 
@@ -120,7 +126,7 @@ public class UsuarioServlet extends HttpServlet {
                 usuario.setIdCarrera(Integer.parseInt(request.getParameter("carrera")));
             }
             resultado = UsuarioDAO.registrarUsuario(conn, usuario);
-            Util.agregarMensajes(request, "Se registó el usuario con éxito");
+            Util.agregarMensajes(request, "Se registró el usuario con éxito");
             forwardNuevoUsuario(request, response);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -140,6 +146,8 @@ public class UsuarioServlet extends HttpServlet {
 
     private void buscar(HttpServletRequest request, HttpServletResponse response) {
         try {
+            HttpSession session = request.getSession();
+            session.setAttribute("estudiante", null);
             Connection conn = ConnectionManager.getConnection();
             Usuario usuario = new Usuario();
             usuario.setNombre(request.getParameter("nombre"));
@@ -148,6 +156,7 @@ public class UsuarioServlet extends HttpServlet {
             usuario.setIdCarrera(Integer.parseInt(request.getParameter("carrera")));
             List<Usuario> estudiantes = UsuarioDAO.buscarEstudiantes(conn, usuario);
             if(estudiantes.size() >0){
+                session.setAttribute("estudiante", usuario);
                 request.setAttribute("estudiantes", estudiantes);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listar-estudiantes.jsp");
                 dispatcher.forward(request,response);
@@ -158,6 +167,64 @@ public class UsuarioServlet extends HttpServlet {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void buscarParaInscribir(HttpServletRequest request, HttpServletResponse response) {
+        Integer idEstudiante = Integer.parseInt(request.getParameter("estudiante"));
+        try {
+            HttpSession session = request.getSession();
+            Connection conn = ConnectionManager.getConnection();
+            List<EstudianteMateria> materiasEstudiante = MateriaDAO.listarParaInscripcion(conn,idEstudiante);
+            if(materiasEstudiante.size() >0){
+                request.setAttribute("materiasEstudiante", materiasEstudiante);
+                session.setAttribute("idEstudiante",idEstudiante);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/inscribir-materias.jsp");
+                dispatcher.forward(request,response);
+               
+            }else{
+                Util.agregarMensajes(request, "No se encontraron registros");
+                conn = ConnectionManager.getConnection();
+                Usuario usuario =(Usuario) session.getAttribute("estudiante");
+                List<Usuario> estudiantes = UsuarioDAO.buscarEstudiantes(conn, usuario);
+                request.setAttribute("estudiantes", estudiantes);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listar-estudiantes.jsp");
+                dispatcher.forward(request,response);
+            }
+        } catch (Exception ex) {
+           ex.printStackTrace();
+        }
+    }
+    
+    private void inscribir(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            HttpSession session = request.getSession();
+            String[] materias = request.getParameterValues("materia");
+            Integer idEstudiante = (Integer) session.getAttribute("idEstudiante");
+            Connection conn = null;
+            try {
+                conn = ConnectionManager.getConnection();
+                conn.setAutoCommit(false);
+                UsuarioDAO.borrarInscripciones(conn, idEstudiante);
+                if(materias!=null && materias.length >0){
+                    UsuarioDAO.inscribir(conn, idEstudiante, materias);
+                }
+                conn.commit();
+                Util.agregarMensajes(request, "Se realizó la asignación de Materias");
+            } catch (Exception ex) {
+                conn.rollback();
+                ex.printStackTrace();
+                 Util.agregarMensajes(request, "ocurrió un error en  la asignación de Materias");
+            } finally {
+                if (conn != null) {
+                    conn.setAutoCommit(true);
+                    conn.close();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        buscarParaInscribir(request,response);
+
     }
 
 }

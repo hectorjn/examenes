@@ -8,8 +8,8 @@
        <div class="header" id="header-admin">
             <div>
                 <div id="logo"></div>
-                <p id="text" contenteditable="true" spellcheck="false">Inscripci&oacute;n</p>
-                <p id="text" contenteditable="true" spellcheck="false">Ex&aacute;menes Finales</p>
+                <p id="text">Inscripci&oacute;n</p>
+                <p id="text">Ex&aacute;menes Finales</p>
                
             </div>
             <div id="menu-container">
@@ -30,13 +30,13 @@
                     <li><a href="#">Materias</a>
                         <ul>
                             <li><a href="./materia?accion=nuevo">Nuevo</a><li>
-                            <li><a href="#home">Buscar</a><li>    
+                            <li><a href="./materia?accion=buscar">Buscar</a><li>    
                         </ul>
                     </li>
                     <li><a href="#about">Ex&aacute;menes</a>
                         <ul>
                             <li><a href="./examen?accion=nuevo">Nuevo</a><li>
-                            <li><a href="#home">Buscar</a><li>    
+                            <li><a href="./examen?accion=buscar">Buscar</a><li>    
                         </ul>
                     </li>
                     
@@ -44,7 +44,7 @@
                   </ul>
             </div> 
             <div id="user-container">
-                <label style="color: #fefd57">${sessionScope.usuario.nombreCompleto} </label>
+                <label style="color: transparent; font-size: 20px">${sessionScope.usuario.nombreCompleto} </label>
             </div> 
              
         </div>    

@@ -11,7 +11,7 @@
         <div class="wrapper">
                 <div id="form_container" class="form_container">
                 
-                    <form id="formulario" action="examen" method="POST">
+                    <form id="formulario" action="examen" method="POST" autocomplete="off">
                         <h2>Nuevo Ex&aacute;men</h2>
                         <div>
                             <label>Materia</label>
