@@ -52,10 +52,12 @@ public class ExamenServlet extends HttpServlet {
             if (accion.equals("buscar")) {
                 forwardBuscarExamen(request, response);
             }
-            if (accion.equals("misExamenes")) {
+            if (accion.equals("misexamenes")) {
                 forwardMisExamenes(request, response);
             }
-            
+            if (accion.equals("examenesMateria")) {
+               forwardExamenesPorMateria(request, response);
+            } 
         }
     }
 
@@ -166,7 +168,27 @@ public class ExamenServlet extends HttpServlet {
             Connection conn = ConnectionManager.getConnection();
             List<Examen> examenes = ExamenDAO.buscarExamenesEstudiante(conn, usuario.getId());
             if (examenes.size() > 0) {
-                session.setAttribute("Examenes", examenes);
+                session.setAttribute("examenes", examenes);
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listar-examenes.jsp");
+                dispatcher.forward(request, response);
+            } else {
+                Util.agregarMensajes(request, "No se encontraron registros");
+                RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/welcome.jsp");
+                dispatcher.forward(request, response);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void forwardExamenesPorMateria(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            HttpSession session = request.getSession();
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            Connection conn = ConnectionManager.getConnection();
+            List<Examen> examenes = ExamenDAO.buscarExamenesPorMateria(conn, usuario.getId());
+            if (examenes.size() > 0) {
+                session.setAttribute("examenes", examenes);
                 RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/listar-examenes.jsp");
                 dispatcher.forward(request, response);
             } else {

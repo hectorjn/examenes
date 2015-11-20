@@ -17,7 +17,9 @@
                                     <th>Nombre</th>
                                     <th>Fecha</th>
                                     <th>Hora</th>
-                                    <th class="acciones">Inscritos</th>
+                                    <c:if test="${sessionScope.usuario.tipoUsuario eq 2}">
+                                         <th class="acciones">Inscritos</th>
+                                    </c:if>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,10 +37,11 @@
                                         <td>
                                              ${examen.hora}
                                         </td>
-                                        <td>
-                                             ${examen.cantidadInscritos}
-                                        </td>
-                                       
+                                        <c:if test="${sessionScope.usuario.tipoUsuario eq 2}">
+                                            <td>
+                                                 ${examen.cantidadInscritos}
+                                            </td>
+                                        </c:if>
                                     </tr>
                                 </c:forEach>
                             </tbody>

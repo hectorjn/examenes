@@ -83,8 +83,64 @@ public class ExamenDAO {
         return examenes;
     }
 
-    public static List<Examen> buscarExamenesEstudiante(Connection conn, Integer id) {
-        return null;
+    public static List<Examen> buscarExamenesEstudiante(Connection conn, Integer id) throws SQLException {
+        String laConsulta = " SELECT E.EXAMEN_ID, E.MATERIA_ID,M.NOMBRE AS NOMBRE_M,E.FECHA_HORA, E.NOMBRE" +
+                            " FROM EXAMEN E\n" +
+                            " INNER JOIN MATERIA M ON M.MATERIA_ID = E.MATERIA_ID \n"+
+                            " INNER JOIN ESTUDIANTE_EXAMEN EX ON E.EXAMEN_ID = EX.EXAMEN_ID\n"+
+                            " WHERE EX.ESTUDIANTE_ID  ="+id ;
+      
+        System.out.println(laConsulta);
+        Statement stmtConsulta = conn.createStatement();
+        ResultSet rs = stmtConsulta.executeQuery(laConsulta);
+       
+        // Obtiene los datos
+        List<Examen> examenes = new ArrayList<Examen>();
+        Timestamp stamp;
+        while (rs.next()) {
+            Examen ex  = new Examen();
+            ex.setId(rs.getInt("EXAMEN_ID"));
+            ex.setMateriaId(rs.getInt("E.MATERIA_ID"));
+            ex.setNombreMateria(rs.getString("NOMBRE_M"));
+            ex.setNombre(rs.getString("NOMBRE"));
+            stamp = rs.getTimestamp("FECHA_HORA");
+            ex.setFecha(new Date(stamp.getTime()));
+            examenes.add(ex);
+        }
+        stmtConsulta.close();
+        conn.close();
+       
+        return examenes;
+    }
+
+    public static List<Examen> buscarExamenesPorMateria(Connection conn, Integer id) throws SQLException{
+         String laConsulta = " SELECT E.EXAMEN_ID, E.MATERIA_ID,M.NOMBRE AS NOMBRE_M,E.FECHA_HORA, E.NOMBRE" +
+                            " FROM EXAMEN E\n" +
+                            " INNER JOIN MATERIA M ON M.MATERIA_ID = E.MATERIA_ID \n"+
+                            " INNER JOIN ESTUDIANTE_MATERIA EM ON EM.MATERIA_ID = M.MATERIA_ID\n"+
+                            " WHERE EM.ESTUDIANTE_ID  ="+id ;
+      
+        System.out.println(laConsulta);
+        Statement stmtConsulta = conn.createStatement();
+        ResultSet rs = stmtConsulta.executeQuery(laConsulta);
+       
+        // Obtiene los datos
+        List<Examen> examenes = new ArrayList<Examen>();
+        Timestamp stamp;
+        while (rs.next()) {
+            Examen ex  = new Examen();
+            ex.setId(rs.getInt("EXAMEN_ID"));
+            ex.setMateriaId(rs.getInt("E.MATERIA_ID"));
+            ex.setNombreMateria(rs.getString("NOMBRE_M"));
+            ex.setNombre(rs.getString("NOMBRE"));
+            stamp = rs.getTimestamp("FECHA_HORA");
+            ex.setFecha(new Date(stamp.getTime()));
+            examenes.add(ex);
+        }
+        stmtConsulta.close();
+        conn.close();
+       
+        return examenes;
     }
     
 }
