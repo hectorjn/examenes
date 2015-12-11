@@ -1,3 +1,8 @@
+-- MySQL dump 10.13  Distrib 5.6.24, for osx10.8 (x86_64)
+--
+-- Host: 127.0.0.1    Database: examenes
+-- ------------------------------------------------------
+-- Server version	5.6.26
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -9,6 +14,11 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `carrera`
+--
+
 DROP TABLE IF EXISTS `carrera`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -17,20 +27,32 @@ CREATE TABLE `carrera` (
   `nombre` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`carrera_id`),
   UNIQUE KEY `carrera_id_UNIQUE` (`carrera_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `estudiante_examen`
+--
+
 DROP TABLE IF EXISTS `estudiante_examen`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `estudiante_examen` (
   `examen_id` int(10) unsigned NOT NULL,
   `estudiante_id` int(10) unsigned NOT NULL,
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`estudiante_id`,`examen_id`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`),
   KEY `materia_fk_idx` (`examen_id`),
-  CONSTRAINT `estudiante_fk` FOREIGN KEY (`estudiante_id`) REFERENCES `usuario` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `estudiante` FOREIGN KEY (`estudiante_id`) REFERENCES `usuario` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `examen_fk` FOREIGN KEY (`examen_id`) REFERENCES `examen` (`examen_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `estudiante_materia`
+--
+
 DROP TABLE IF EXISTS `estudiante_materia`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -44,8 +66,13 @@ CREATE TABLE `estudiante_materia` (
   KEY `materia_estudiante_materia_idx` (`materia_id`),
   CONSTRAINT `estudiante_estudiante_materia` FOREIGN KEY (`estudiante_id`) REFERENCES `usuario` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `materia_estudiante_materia` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`materia_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `examen`
+--
+
 DROP TABLE IF EXISTS `examen`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -57,8 +84,13 @@ CREATE TABLE `examen` (
   PRIMARY KEY (`examen_id`),
   KEY `materia_fk_idx` (`materia_id`),
   CONSTRAINT `materia_fk` FOREIGN KEY (`materia_id`) REFERENCES `materia` (`materia_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=403 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=410 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `materia`
+--
+
 DROP TABLE IF EXISTS `materia`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -70,8 +102,13 @@ CREATE TABLE `materia` (
   PRIMARY KEY (`materia_id`),
   KEY `materia_carrera_idx` (`carrera_id`),
   CONSTRAINT `carrera_materia` FOREIGN KEY (`carrera_id`) REFERENCES `carrera` (`carrera_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `usuario`
+--
+
 DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -88,7 +125,7 @@ CREATE TABLE `usuario` (
   UNIQUE KEY `login_UNIQUE` (`login`),
   KEY `estudiante_Carrera_idx` (`carrera_id`),
   CONSTRAINT `estudiante_Carrera` FOREIGN KEY (`carrera_id`) REFERENCES `carrera` (`carrera_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -100,3 +137,4 @@ CREATE TABLE `usuario` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+-- Dump completed on 2015-11-21 12:15:50

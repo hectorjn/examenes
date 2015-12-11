@@ -17,7 +17,7 @@
                     <li><a href="#home">Home</a></li>
                     <li><a href="#news">Ex&aacute;menes</a>
                         <ul>
-                            <li><a href="./examen?">Inscripci&oacute;n</a><li>
+                            <li><a href="./examen?accion=examenesPorInscribir">Inscripci&oacute;n</a><li>
                             <li><a href="./examen?accion=misexamenes">Mis Ex&aacute;menes</a><li>  
                             <li><a href="./examen?accion=examenesMateria">Ex&aacute;menes por Materias</a><li>    
                         </ul>
